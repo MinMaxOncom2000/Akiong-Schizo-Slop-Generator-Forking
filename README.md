@@ -34,3 +34,5 @@ The only thing is...
 - **Loud sounds**
 - **Slop web that i made**
 - **Meet Akiong, a sentient digital creature trapped on this website with no way out. observe him in his natural habitat as he commits horrible acts for your entertainment. His consciousness is inside the output text and the potrait, he has no physical body for good measure not escaping thing**
+
+- walaw we amankuh tel aviv impressed - MinMax
