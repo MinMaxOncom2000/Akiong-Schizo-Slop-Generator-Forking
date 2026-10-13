@@ -8,7 +8,6 @@ sometimes normal stuff. sometimes not.
 
 Just html, css and js btw.
 
----
 
 ## features ##
 
@@ -34,3 +33,4 @@ the only thing is...
 - **some swearing** if your family friendly like Kreekkraft guy or Nickeh30, never back down never what.
 - **loud sounds**
 - **slop that i made**
+- **meet Akiong, a sentient digital creature trapped on this website with no way out. observe him in his natural habitat as he commits horrible acts for your entertainment.**
