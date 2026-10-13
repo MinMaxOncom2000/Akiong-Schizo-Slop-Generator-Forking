@@ -1,0 +1,744 @@
+*, *::before, *::after{
+    box-sizing: border-box;
+}
+
+/* hides the sideways scrollbar when the painting flies to the edge thing */
+html{
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body{
+    background-color: #eeeeee;
+    font-family: Arial, sans-serif;
+    max-width: 640px;
+    margin: 20px auto 0 auto; /* no space at the bottom so the floor is really at the bottom */
+    padding: 0 16px;
+}
+
+h1{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.25em;
+    font-size: clamp(24px, 7vw, 40px);
+    margin: 0px;
+    min-width: 0; /* lets it shrink inside the flexbox */
+}
+
+/* ===== the title ===== */
+@property --top{
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #000000;
+}
+
+@property --bottom{
+    syntax: "<color>";
+    inherits: false;
+    initial-value: #000000;
+}
+
+.tw{
+    --top: #000000;
+    --bottom: #000000;
+    display: inline-block;
+    background-image: linear-gradient(180deg, var(--top), var(--bottom));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: #000000;
+    -webkit-text-fill-color: transparent;
+    transition: --top 0.35s, --bottom 0.35s, transform 0.25s, filter 0.35s;
+    cursor: default;
+}
+
+@media (hover: hover) and (pointer: fine){
+    .tw:hover{
+        transform: translateY(-6px);
+    }
+
+    /* white is invisible on the gray page, so it gets a dark outline glow */
+    .w-akiong:hover{
+        --top: #ffffff;
+        --bottom: #b5b5b5;
+        filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.9)) drop-shadow(0 2px 0 rgba(0, 0, 0, 0.35));
+    }
+
+    .w-schizo:hover{
+        --top: #ff3b3b;
+        --bottom: #8b0000;
+    }
+
+    .w-slop:hover{
+        --top: #4cff7a;
+        --bottom: #0e7a2e;
+    }
+
+    .w-cone:hover{
+        --top: #a30000;
+        --bottom: #3d0000;
+    }
+}
+
+/* story letters get PRESSED */
+.drop{
+    position: relative;
+    animation: letterpress 0.2s step-end;
+}
+
+@keyframes letterpress{
+    0%{ top: -0.22em; }
+    30%{ top: 0.14em; }
+    65%{ top: -0.06em; }
+    100%{ top: 0; }
+}
+
+/* the chick letters*/
+@keyframes letterdrop{
+    from{ top: -0.5em; opacity: 0; }
+    to{ top: 0; opacity: 1; }
+}
+
+/* icon + title next to each other (flexbox!!) */
+.title-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* the icon is bigger now (was 60px, felt tiny next to the title) */
+.title-row img{
+    width: clamp(60px, 16vw, 84px);
+    height: clamp(60px, 16vw, 84px);
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.intro{
+    text-align: center;
+}
+
+/* added rounded corners, looks better now */
+.box{
+    background-color: #dcdcdc;
+    border: 1px solid #aaaaaa;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 15px auto;
+    padding: 20px;
+}
+
+/* settings are split in little groups now so its not a big mess */
+.section{
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed #aaaaaa;
+}
+
+.section-title{
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+.row{
+    margin-bottom: 8px;
+}
+
+/* the custom music row */
+.row-music{
+    margin-top: 8px;
+}
+
+#output{
+    background-color: white;
+    border: 1px solid #999999;
+    border-radius: 12px;
+    width: 100%;
+    height: 260px;
+    padding: 15px;
+    font-size: 18px;
+    overflow: auto;
+    overscroll-behavior: contain;
+    white-space: pre-wrap;
+}
+
+/* buttons float up when you hover them which is cool */
+/* min-width instead of width because "Herunterladen" in german is LONG */
+button{
+    min-width: 100px;
+    height: 38px;
+    padding: 0 12px;
+    margin-top: 10px;
+    margin-right: 5px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    touch-action: manipulation;
+    transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+@media (hover: hover) and (pointer: fine){
+    button:hover{
+        background-color: #444444;
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    }
+}
+
+/* little squish when you click it */
+button:active{
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* so keyboard people can see where they are */
+button:focus-visible{
+    outline: 3px solid #888888;
+    outline-offset: 2px;
+}
+
+/* if someone turned off animations in their computer settings, dont bounce ok */
+@media (prefers-reduced-motion: reduce){
+    button{
+        transition: none;
+    }
+    button:hover, button:active{
+        transform: none;
+    }
+    .wall{
+        transition: none;
+    }
+    button.chick-btn.nod,
+    button.chick-btn.nod:hover,
+    button.chick-btn.nod:active{
+        animation: none;
+    }
+    .chick-body, .chick-img, .drop, .chick-letter{
+        animation: none;
+    }
+    .tw{
+        transition: none;
+    }
+    .tw:hover{
+        transform: none;
+    }
+}
+
+/* smaller black buttons for the music import stuff */
+button.small{
+    min-width: 0;
+    height: 28px;
+    padding: 0 10px;
+    margin-top: 4px;
+    font-size: 13px;
+    border-radius: 8px;
+}
+
+#musicname{
+    color: gray;
+    font-size: 14px;
+    word-break: break-all; /* long file names dont break the layout */
+}
+
+select{
+    width: auto;
+    min-width: 80px;
+    max-width: 100%;
+    height: 32px;
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+/* labels so you can click the words too not just the tiny circle */
+label{
+    cursor: pointer;
+    margin-right: 8px;
+}
+
+#counter, #timer{
+    color: gray;
+    font-size: 14px;
+}
+
+#volslider{
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 20px;
+    vertical-align: middle;
+    cursor: pointer;
+    touch-action: none; /* so mmobile phones dont scroll when you slide it */
+    border-radius: 10px;
+}
+
+/* phones get a FATASS slider so you can actually hit it */
+@media (pointer: coarse){
+    #volslider{
+        height: 32px;
+    }
+}
+
+/* the gray line */
+#volslider::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 4px;
+    margin-top: -2px;
+    background-color: #aaaaaa;
+    border-radius: 2px;
+}
+
+/* the black part that shows how loud */
+#volfill{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 30%;
+    height: 4px;
+    margin-top: -2px;
+    background-color: black;
+    border-radius: 2px;
+}
+
+/* the round knob volume slider*/
+#volknob{
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: black;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+}
+
+/* the knob is tiny for fingers, this makes an invisible bigger area around it can grab */
+#volknob::after{
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+}
+
+#volslider:focus-visible{
+    outline: 3px solid #888888;
+    outline-offset: 2px;
+}
+
+/* when the knob fell off the line looks broken like dashes ---- */
+#volslider.broken::before{
+    background: repeating-linear-gradient(90deg, #aaaaaa 0px, #aaaaaa 6px, transparent 6px, transparent 10px);
+}
+
+#volslider.broken #volfill{
+    display: none;
+}
+
+#volnum{
+    display: inline-block;
+    min-width: 3.5em;
+    margin-left: 8px;
+    color: gray;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ===== the potrait or painting wall ===== */
+.wall{
+    margin-top: 40vh;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s, transform 0.8s;
+}
+
+@supports (margin-top: 40svh){
+    .wall{
+        margin-top: 40svh;
+    }
+}
+
+/* added by javascript when you scroll to it */
+.wall.shown{
+    opacity: 1;
+    transform: none;
+}
+
+.paint-slot{
+    position: relative;
+    width: 200px;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    margin: 40px auto 10px auto;
+}
+
+.paint-slot.empty{
+    background-color: rgba(17, 17, 17, 0.7);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.painting{
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.35));
+}
+
+/* what the wall says when you steal the painting, honestyly FUCK YOU for looking at this dumbahh code and fuck me too*/
+.angry{
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    font-size: 11px;
+    line-height: 1.1;
+    color: rgba(190, 190, 190, 0.35);
+    pointer-events: none;
+    overflow-wrap: anywhere;
+}
+
+.paint-slot.empty .angry{
+    display: flex;
+}
+
+.painting img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none; /* so the browser doesnt do its own image drag thing */
+}
+
+.paint-cap{
+    color: gray;
+    font-size: 14px;
+}
+
+/* when something is flying around with physics. */
+.free{
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0 !important;
+    z-index: 60;
+}
+
+.dragging{
+    cursor: grabbing !important;
+}
+
+.ground{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: 10px;
+    padding: 0 6px;
+    pointer-events: none; /* only the chick chicky can be clicked */
+}
+
+.plants{
+    display: block;
+    height: clamp(100px, 40vw, 180px);
+    width: auto;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.chick-spot{
+    position: relative;
+    pointer-events: auto;
+    z-index: 20;
+}
+
+button.chick-btn,
+button.chick-btn:hover,
+button.chick-btn:active{
+    all: unset;
+    display: block;
+    cursor: pointer;
+    touch-action: manipulation; /* spam tapping the chick doesnt zoom the page */
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s;
+}
+
+button.chick-btn:focus-visible{
+    outline: 3px solid #888888;
+    outline-offset: 2px;
+    border-radius: 8px;
+}
+
+/* holds both chick pictures. this is the shit that jumps */
+.chick-body{
+    display: block;
+    position: relative;
+}
+
+.chick-img{
+    display: block;
+    height: clamp(100px, 40vw, 180px);
+    width: auto;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.chick-img.frame1{
+    animation: chickframe1 var(--frame, 1s) step-end infinite;
+}
+
+.chick-img.frame2{
+    position: absolute;
+    left: 0;
+    top: 0;
+    visibility: hidden;
+    animation: chickframe2 var(--frame, 1s) step-end infinite;
+}
+
+@keyframes chickframe1{
+    0%{ visibility: visible; }
+    50%{ visibility: hidden; }
+    100%{ visibility: visible; }
+}
+
+@keyframes chickframe2{
+    0%{ visibility: hidden; }
+    50%{ visibility: visible; }
+    100%{ visibility: hidden; }
+}
+
+button.chick-btn.nod,
+button.chick-btn.nod:hover,
+button.chick-btn.nod:active{
+    animation: chicknod 0.14s ease-out;
+}
+
+@keyframes chicknod{
+    0%{ transform: translateY(0); }
+    40%{ transform: translateY(var(--nod, 3px)); }
+    100%{ transform: translateY(0); }
+}
+
+/* the jump when you click it */
+.chick-body.hop{
+    animation: chickhop 0.4s ease-out;
+}
+
+@keyframes chickhop{
+    0%{ transform: translateY(0) scale(1, 1); }
+    15%{ transform: translateY(0) scale(1.1, 0.9); }
+    50%{ transform: translateY(-34px) scale(0.95, 1.05); }
+    85%{ transform: translateY(0) scale(1.1, 0.9); }
+    100%{ transform: translateY(0) scale(1, 1); }
+}
+
+.chick-bubble{
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 12px);
+    min-width: 70px;
+    padding: 8px 12px;
+    background-color: #1b1b1b;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+    width: max-content;
+    max-width: 240px;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.35;
+    opacity: 1;
+    transition: opacity 0.4s;
+}
+
+.chick-bubble[hidden]{
+    display: none;
+}
+
+.chick-bubble.fade{
+    opacity: 0;
+}
+
+/* the little triangle pointing at the chick */
+.chick-bubble::after{
+    content: "";
+    position: absolute;
+    left: var(--tail, 50%);
+    margin-left: -8px;
+    top: 100%;
+    border: 8px solid transparent;
+    border-top-color: #1b1b1b;
+}
+
+/* one word in the bubble */
+.chick-word{
+    white-space: nowrap;
+}
+
+/* chick letters: yellow to orange, they drop in and then wave forever la */
+.chick-letter{
+    display: inline-block;
+    position: relative;
+    background-image: linear-gradient(180deg, #fff04d 0%, #ffd000 50%, #ff9a00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: letterdrop 0.25s ease-out, chickwave 1.1s ease-in-out infinite;
+}
+
+@keyframes chickwave{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-4px); }
+}
+
+/* ===== EMERGENCY / SIREN / WHATEVER I SAID EVENT ===== */
+.siren-flash{
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background-color: #ff0000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.3s, visibility 0s 0.3s;
+}
+
+.siren-flash.on{
+    visibility: visible;
+    transition: none;
+    animation: sirenpulse 1.4s ease-in-out infinite;
+}
+
+@keyframes sirenpulse{
+    0%, 100%{ opacity: 0.03; }
+    50%{ opacity: 0.16; }
+}
+
+.siren-wrap{
+    position: fixed;
+    top: 0;
+    left: 50%;
+    z-index: 55;
+    pointer-events: none;
+    visibility: hidden;
+    transform: translate(-50%, calc(-100% - 30px)); /* hiding above the screen */
+    transition: transform 0.45s ease-out, visibility 0s 0.45s;
+}
+
+.siren-wrap.on{
+    visibility: visible;
+    transform: translate(-50%, -20%);
+    transition: transform 0.45s ease-out, visibility 0s 0s;
+}
+
+.siren-boy{
+    display: block;
+    transform-origin: 50% 0; /* shakes from the top */
+    width: clamp(100px, 22vw, 170px);
+    height: auto;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* once its down it shakes CHOPPYILY like Retro slop */
+.siren-wrap.on .siren-boy{
+    animation: sirenshake 0.36s step-end infinite 0.45s;
+}
+
+@keyframes sirenshake{
+    0%{ transform: translate(0, 0) rotate(0deg); }
+    25%{ transform: translate(-5px, 2px) rotate(-4deg); }
+    50%{ transform: translate(4px, -2px) rotate(3deg); }
+    75%{ transform: translate(-3px, -1px) rotate(-2deg); }
+    100%{ transform: translate(5px, 1px) rotate(4deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+    .siren-flash.on{
+        animation: none;
+        opacity: 0.1;
+    }
+    .siren-wrap.on .siren-boy{
+        animation: none;
+    }
+}
+
+/* ===== THE EVIL EVENT / BLACKOUT ===== */
+.blackout{
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    cursor: none;
+    touch-action: none;
+}
+
+.blackout[hidden]{
+    display: none;
+}
+
+/* the evil chick shows up where the normal chick was */
+.blackout img{
+    position: fixed;
+    display: block;
+    object-fit: contain;
+    opacity: 0;
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+}
+
+.ground + .floor{
+    margin-top: 0;
+}
+
+.floor{
+    position: relative;
+    z-index: 30;
+    height: 14px;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-top: 20px;
+    background-color: #aaaaaa;
+}
+
+.plants, .chick-img, .painting, .siren-boy, .blackout img{
+    -webkit-touch-callout: none;
+}
+
+.credits{
+    text-align: center;
+    color: gray;
+    font-size: 14px;
+    margin: 10px 0 20px 0;
+}
