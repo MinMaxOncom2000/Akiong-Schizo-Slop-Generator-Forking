@@ -15,7 +15,7 @@ Just html, css and js btw.
 - **3 To 50 sentences**, or turn on **everlasting** and it just keeps going forever
 - **Typing speed** from slow to very fast
 - **Plot twists**, **Sound effects in the text**, and **ALL CAPS** if you want the text to read loud idk
-- **12 languages**: You'll see on web.
+- **12 languages**: English, Indonesia, South Korea, North Korea, Mandarin, France, Italian, Deutsch, Spanish, Russia, Tagalog, Forbidden One.
 - **Import your own music** if you dont like elevator jazz
 - **Download** Akiong's story as a .txt file
 - **Remembers your settings for next time**
